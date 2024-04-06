@@ -9,6 +9,7 @@ const Home = () => {
   const [search, setSearch] = useState("Mumbai");
   let days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
 
+  //fetching the data from API
   const searchFun = async () => {
     try {
       const realtimeUrl = `https://api.tomorrow.io/v4/weather/realtime?location=${search}&apikey=PV0Aed7qz7CNrVFqxPuSNpNa8LY9tx55`;
@@ -21,6 +22,8 @@ const Home = () => {
       const realJson = await realRes.json();
       const forJson = await forRed.json();
 
+      console.log(realJson, forJson);
+
       setForcast(() => forJson);
       setRealTime(() => realJson);
       setCity(() => search);
@@ -32,31 +35,33 @@ const Home = () => {
   };
 
   return (
-    //fragmentation
     <>
       <div className="app-wrap">
-        <div className="inout-Field">
+        <div className="input-field">
           <input
             type="text"
             className="search-box"
             autoComplete="off"
             placeholder="Search for a city..."
+            value={search}
             onChange={(event) => {
               setSearch(event.target.value);
             }}
           />
-
           <button className="btn" onClick={searchFun}>
             Search
           </button>
         </div>
 
+        {/* if we did not get the city we enter then simply return thr erroe messge */}
         {realTime?.code || forcast?.code ? (
-          <p>NO Data Found</p>
+          <p className="erro-msg">NO Data Found</p>
         ) : (
           <div className="info">
             <div className="location">
-              <div className="city">{search}</div>
+              <div className="city" text-align="center">
+                {search}
+              </div>
               {/* <div class="date">Thursday 10 January 2020</div> */}
             </div>
             <div className="current">
