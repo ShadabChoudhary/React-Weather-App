@@ -24,6 +24,28 @@ body {
   flex-direction: column;
 }
 
+.loader {
+  /* border: 5px solid black; */
+  height: 100vh;
+  width: 100vw;
+  font-size: larger;
+  font-weight: 600;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-msg {
+  height: 50vh;
+  width: 100vw;
+  font-size: larger;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: whitesmoke;
+}
+
 .input-field {
   /* border: 1px solid black; */
   display: flex;

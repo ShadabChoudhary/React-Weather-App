@@ -5,6 +5,7 @@ const Home = () => {
   const [city, setCity] = useState(null);
   const [realTime, setRealTime] = useState({});
   const [forcast, setForcast] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const [search, setSearch] = useState("Mumbai");
   let days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
@@ -12,6 +13,7 @@ const Home = () => {
   //fetching the data from API
   const searchFun = async () => {
     try {
+      setLoading(true);
       const realtimeUrl = `https://api.tomorrow.io/v4/weather/realtime?location=${search}&apikey=PV0Aed7qz7CNrVFqxPuSNpNa8LY9tx55`;
       const forcastUrl = `https://api.tomorrow.io/v4/weather/forecast?location=${search}&apikey=PV0Aed7qz7CNrVFqxPuSNpNa8LY9tx55`;
 
@@ -27,14 +29,18 @@ const Home = () => {
       setForcast(() => forJson);
       setRealTime(() => realJson);
       setCity(() => search);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       //error
       console.log(error);
       alert("Something went wrong");
     }
   };
 
-  return (
+  return loading ? (
+    <div className="loader">LOADING...</div>
+  ) : (
     <>
       <div className="app-wrap">
         <div className="input-field">
@@ -55,7 +61,7 @@ const Home = () => {
 
         {/* if we did not get the city we enter then simply return thr erroe messge */}
         {realTime?.code || forcast?.code ? (
-          <p className="erro-msg">NO Data Found</p>
+          <p className="error-msg">No Data Found</p>
         ) : (
           <div className="info">
             <div className="location">
@@ -78,6 +84,8 @@ const Home = () => {
                   <thead>
                     <tr>
                       {forcast?.timelines?.daily.map((e, i) => (
+                        // console.log(e),
+                        // console.log(new Date(e?.time).getDay()),
                         <th key={i}>{days[new Date(e?.time).getDay()]}</th>
                       ))}
                     </tr>
